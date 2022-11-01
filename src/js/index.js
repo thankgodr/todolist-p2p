@@ -1,5 +1,5 @@
-import Todo from './models/todo.js';
-import TaskManager from './controllers/taskmanager.js';
+import Todo from './models/todo';
+import TaskManager from './controllers/taskmanager';
 import '../css/style.css';
 
 const taskManager = new TaskManager();
