@@ -1,20 +1,15 @@
-import Todo from './models/todo';
-import TaskManager from './controllers/taskmanager';
 import '../css/style.css';
 
-const taskManager = new TaskManager();
-
+const taskListArr = [];
 const demoData = () => {
-  if (taskManager.taskList.length === 0) {
-    const singleTask = new Todo('Do action one', false, 1);
-    taskManager.addTask(singleTask);
+  const singleTask = { description: 'Do action one', completed: false, index: 1 };
+  taskListArr.push(singleTask);
 
-    const singleTask1 = new Todo('Do action two', false, 2);
-    taskManager.addTask(singleTask1);
+  const singleTask1 = { description: 'Do action two', completed: false, index: 2 };
+  taskListArr.push(singleTask1);
 
-    const singleTask2 = new Todo('Do action three', true, 0);
-    taskManager.addTask(singleTask2);
-  }
+  const singleTask2 = { description: 'Do action three', completed: true, index: 0 };
+  taskListArr.push(singleTask2);
 };
 const compare = (current, next) => {
   if (current.index < next.index) {
@@ -27,7 +22,7 @@ const compare = (current, next) => {
 };
 const printAllTasks = () => {
   const taskList = document.getElementById('taskList');
-  const sorted = taskManager.taskList.sort(compare);
+  const sorted = taskListArr.sort(compare);
   sorted.forEach((task) => {
     const listViewItem = document.createElement('li');
     listViewItem.className = 'list-group-item d-flex justify-content-between align-items-center';
@@ -38,12 +33,12 @@ const printAllTasks = () => {
 
     checkbox.className = 'form-check-input pull-left';
     checkbox.style.marginRight = '17px';
-    checkbox.value = task.isCompleted;
+    checkbox.checked = task.completed;
 
     const span = document.createElement('span');
     span.className = 'fas fa-ellipsis-v pull-right';
     listViewItem.appendChild(checkbox);
-    listViewItem.appendChild(document.createTextNode(task.title));
+    listViewItem.appendChild(document.createTextNode(task.description));
     listViewItem.appendChild(span);
     taskList.appendChild(listViewItem);
   });
