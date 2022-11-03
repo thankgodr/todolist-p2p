@@ -25,3 +25,7 @@
   display: inline;
   white-space: nowrap;
 }
+
+.removebtn {
+  margin-left: 10px;
+}

@@ -36,6 +36,16 @@ const printAllTasks = () => {
       taskmanager.editTask(task);
     });
 
+    const removeBtn = document.createElement('button');
+
+    removeBtn.appendChild(document.createTextNode('Remove'));
+    removeBtn.className = 'removebtn';
+    removeBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      taskmanager.remveTask(task);
+      printAllTasks();
+    });
+
     const span = document.createElement('span');
     span.className = 'fas fa-ellipsis-v pull-right';
     listViewItem.appendChild(checkbox);
@@ -52,6 +62,7 @@ const printAllTasks = () => {
       }
     });
     listViewItem.appendChild(ptag);
+    listViewItem.appendChild(removeBtn);
     listViewItem.appendChild(span);
     taskList.appendChild(listViewItem);
   });
