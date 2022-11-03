@@ -10,3 +10,22 @@
   background: #fff;
   padding: 5px;
 }
+
+[contenteditable="true"].single-line {
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 3px;
+}
+
+[contenteditable="true"].single-line br {
+  display: none;
+}
+
+[contenteditable="true"].single-line * {
+  display: inline;
+  white-space: nowrap;
+}
+
+.removebtn {
+  margin-left: 10px;
+}
