@@ -10,11 +10,11 @@ export default class Todo {
     this.completed = status;
   }
 
-  updateIndex(index){
+  updateIndex(index) {
     this.index = index;
   }
 
-  updateDescription(description){
+  updateDescription(description) {
     this.description = description;
   }
 }

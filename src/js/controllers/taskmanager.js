@@ -1,29 +1,36 @@
-import Todo from "../models/todo";
+import Todo from '../models/todo';
+
 export default class TaskManager {
   constructor() {
-    let tempArr = JSON.parse(localStorage.getItem('tasksListDb'));
+    const tempArr = JSON.parse(localStorage.getItem('tasksListDb'));
     if (tempArr == null) {
       this.taskList = [];
-    }else{
+    } else {
       this.taskList = [];
-      tempArr.forEach(element => {
-       this.taskList.push(Object.assign(new Todo, element))
+      tempArr.forEach((element) => {
+        this.taskList.push(Object.assign(new Todo(), element));
       });
     }
   }
 
-
   addTask(task) {
-    const nextIndex = this.taskList.length > 0 ? this.taskList.length == 1 ? 1 : this.taskList.length : 0
-    task.updateIndex(nextIndex)
+    let nextIndex = -1;
+    if (this.taskList.length > 0) {
+      if (this.taskList.length === 1) {
+        nextIndex = 1;
+      } else {
+        nextIndex = this.taskList.length;
+      }
+    } else {
+      nextIndex = 0;
+    }
+    task.updateIndex(nextIndex);
     this.taskList.push(task);
     this.#updateTaskStorage();
   }
 
-  editTask(task){
-    const index = this.taskList.findIndex(currentTask => {
-      return currentTask.id === task.id;
-    })
+  editTask(task) {
+    const index = this.taskList.findIndex((currentTask) => currentTask.id === task.id);
     this.taskList[index] = task;
     this.#updateTaskStorage();
   }
@@ -38,20 +45,21 @@ export default class TaskManager {
     localStorage.setItem('tasksListDb', JSON.stringify(this.taskList));
   }
 
-  #compare(current, next) {
-    if (current.index < next.index) {
-      return -1;
+    static #compare(current, next) {
+      if (current.index < next.index) {
+        return -1;
+      }
+      if (current.index < next.index) {
+        return 1;
+      }
+      return 0;
     }
-    if (current.index < next.index) {
-      return 1;
+
+  #updateIndexes() {
+      const sorted = this.taskList.sort(TaskManager.#compare);
+      sorted.forEach((task, index) => {
+        task.index = index;
+      });
+      this.taskList = sorted;
     }
-    return 0;
-  };
-  #updateIndexes(){
-    const sorted = this.taskList.sort(this.#compare)
-    sorted.forEach((task, index) => {
-      task.index = index
-    })
-    this.taskList = sorted
-  }
 }
