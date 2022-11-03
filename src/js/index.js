@@ -40,7 +40,19 @@ const printAllTasks = () => {
     const span = document.createElement('span');
     span.className = 'fas fa-ellipsis-v pull-right';
     listViewItem.appendChild(checkbox);
-    listViewItem.appendChild(document.createTextNode(task.description));
+    const ptag = document.createElement("span");
+    ptag.setAttribute("contenteditable", "true");
+    ptag.setAttribute("class", "single-line");
+    ptag.appendChild(document.createTextNode(task.description))
+    ptag.addEventListener("keypress", (event) => {
+        if(event.key == "Enter"){
+            task.updateDescription(ptag.innerText);
+            taskmanager.editTask(task)
+            ptag.setAttribute("contenteditable", "false");
+            ptag.setAttribute("contenteditable", "true");
+        }
+    })
+    listViewItem.appendChild(ptag);
     listViewItem.appendChild(span);
     taskList.appendChild(listViewItem);
   });
