@@ -1,8 +1,10 @@
 import TaskManager from './controllers/taskmanager';
 import Todo from './models/todo';
 import '../css/style.css';
+import StatusController from './controllers/statuscontroller';
 
 const taskmanager = new TaskManager();
+const statusController = new StatusController();
 
 const compare = (current, next) => {
   if (current.index < next.index) {
@@ -28,12 +30,7 @@ const printAllTasks = () => {
     checkbox.style.marginRight = '17px';
     checkbox.checked = task.completed;
     checkbox.addEventListener('change', (event) => {
-      if (event.currentTarget.checked) {
-        task.updateStatus(true);
-      } else {
-        task.updateStatus(false);
-      }
-      taskmanager.editTask(task);
+      statusController.changeStatus(event, task);
     });
 
     const span = document.createElement('span');
