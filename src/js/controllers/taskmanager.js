@@ -8,7 +8,8 @@ export default class TaskManager {
     } else {
       this.taskList = [];
       tempArr.forEach((element) => {
-        this.taskList.push(Object.assign(new Todo(), element));
+        const tempV = Object.assign(new Todo(), element);
+        this.taskList.push(tempV);
       });
     }
   }
@@ -37,6 +38,12 @@ export default class TaskManager {
 
   remveTask(task) {
     this.taskList = this.taskList.filter((currentTask) => currentTask.id !== task.id);
+    this.#updateIndexes();
+    this.#updateTaskStorage();
+  }
+
+  clearAllCompleted() {
+    this.taskList = this.taskList.filter((task) => !task.completed);
     this.#updateIndexes();
     this.#updateTaskStorage();
   }

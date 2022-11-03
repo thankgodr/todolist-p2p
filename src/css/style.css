@@ -3,6 +3,14 @@
   margin-top: 20px;
 }
 
+.fa-ellipsis-v {
+  cursor: move;
+}
+
+.deleteIcon {
+  display: none;
+}
+
 .center {
   border: solid 1px #000;
   width: 700px;

@@ -1,8 +1,10 @@
 import TaskManager from './controllers/taskmanager';
 import Todo from './models/todo';
 import '../css/style.css';
+import StatusController from './controllers/statuscontroller';
 
 const taskmanager = new TaskManager();
+const statusController = new StatusController();
 
 const compare = (current, next) => {
   if (current.index < next.index) {
@@ -28,26 +30,26 @@ const printAllTasks = () => {
     checkbox.style.marginRight = '17px';
     checkbox.checked = task.completed;
     checkbox.addEventListener('change', (event) => {
-      if (event.currentTarget.checked) {
-        task.updateStatus(true);
-      } else {
-        task.updateStatus(false);
-      }
-      taskmanager.editTask(task);
+      statusController.changeStatus(event, task);
     });
 
-    const removeBtn = document.createElement('button');
+    const span = document.createElement('span');
+    span.className = 'fas fa-ellipsis-v pull-right';
 
-    removeBtn.appendChild(document.createTextNode('Remove'));
-    removeBtn.className = 'removebtn';
-    removeBtn.addEventListener('click', (event) => {
+    const deleteIcon = document.createElement('span');
+    deleteIcon.className = 'fa fa-trash-o pull-right deleteIcon';
+    deleteIcon.addEventListener('click', (event) => {
       event.preventDefault();
       taskmanager.remveTask(task);
       printAllTasks();
     });
 
-    const span = document.createElement('span');
-    span.className = 'fas fa-ellipsis-v pull-right';
+    span.addEventListener('click', (event) => {
+      event.preventDefault();
+      span.style = 'display:none';
+      deleteIcon.style = 'display: block';
+    });
+
     listViewItem.appendChild(checkbox);
     const ptag = document.createElement('span');
     ptag.setAttribute('contenteditable', 'true');
@@ -56,14 +58,17 @@ const printAllTasks = () => {
     ptag.addEventListener('keypress', (event) => {
       if (event.key === 'Enter') {
         task.updateDescription(ptag.innerText);
-        taskmanager.editTask(task);
+        if (ptag.innerText.length > 0) {
+          taskmanager.editTask(task);
+        }
         ptag.setAttribute('contenteditable', 'false');
         ptag.setAttribute('contenteditable', 'true');
       }
     });
     listViewItem.appendChild(ptag);
-    listViewItem.appendChild(removeBtn);
+    listViewItem.appendChild(deleteIcon);
     listViewItem.appendChild(span);
+
     taskList.appendChild(listViewItem);
   });
 
@@ -82,14 +87,10 @@ const printAllTasks = () => {
     }
   });
 
-  // Delete task
+  // clear all task
   document.getElementById('delete_btn').addEventListener('click', (event) => {
     event.preventDefault();
-    taskmanager.taskList.forEach((task) => {
-      if (task.completed) {
-        taskmanager.remveTask(task);
-      }
-    });
+    taskmanager.clearAllCompleted();
     printAllTasks();
   });
 };
