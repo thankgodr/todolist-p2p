@@ -1,0 +1,39 @@
+#taskList {
+  list-style: none;
+  margin-top: 20px;
+}
+
+.fa-ellipsis-v {
+  cursor: move;
+}
+
+.deleteIcon {
+  display: none;
+}
+
+.center {
+  border: solid 1px #000;
+  width: 700px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 5px;
+}
+
+[contenteditable="true"].single-line {
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 3px;
+}
+
+[contenteditable="true"].single-line br {
+  display: none;
+}
+
+[contenteditable="true"].single-line * {
+  display: inline;
+  white-space: nowrap;
+}
+
+.removebtn {
+  margin-left: 10px;
+}
